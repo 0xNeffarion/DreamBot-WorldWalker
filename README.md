@@ -1,1 +1,2 @@
-# DreamBot-WorldWalker
+# DreamBot World Walker Example
+
