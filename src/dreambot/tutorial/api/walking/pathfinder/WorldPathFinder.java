@@ -16,7 +16,7 @@ public final class WorldPathFinder {
 
     private static final int LOCAL_DISTANCE = 50;
 
-    private final Set<AbstractWorldNode> WORLD_NODES = new HashSet<>();
+    private final Set<AbstractWorldNode> worldNodes = new HashSet<>();
     private final Map<Tile, List<AbstractWorldNode>> visitableCache = new WeakHashMap<>();
 
     public WorldPathFinder() {
@@ -29,15 +29,15 @@ public final class WorldPathFinder {
     }
 
     public final void addNode(AbstractWorldNode node) {
-        WORLD_NODES.add(node);
+        worldNodes.add(node);
     }
 
     public final void addNodes(AbstractWorldNode[] nodes) {
-        Collections.addAll(WORLD_NODES, nodes);
+        Collections.addAll(worldNodes, nodes);
     }
 
     public final void addNodes(List<AbstractWorldNode> nodes) {
-        WORLD_NODES.addAll(nodes);
+        worldNodes.addAll(nodes);
     }
 
     public final List<AbstractWorldNode> calculate(Tile start, Tile target) {
@@ -90,7 +90,7 @@ public final class WorldPathFinder {
 
         Map<AbstractWorldNode, Pair<AbstractWorldNode, Double>> distances = new HashMap<>();
 
-        WORLD_NODES.forEach(x -> distances.put(x, new Pair<>(null, Double.MAX_VALUE)));
+        worldNodes.forEach(x -> distances.put(x, new Pair<>(null, Double.MAX_VALUE)));
 
         temp.forEach(x -> {
             distances.put(x, new Pair<>(x, x.getTile().distance(start)));
@@ -148,7 +148,7 @@ public final class WorldPathFinder {
         }
 
         List<AbstractWorldNode> nodes = new ArrayList<>();
-        for (AbstractWorldNode n : WORLD_NODES) {
+        for (AbstractWorldNode n : worldNodes) {
             if (!n.meetsRequirements()) {
                 continue;
             }
