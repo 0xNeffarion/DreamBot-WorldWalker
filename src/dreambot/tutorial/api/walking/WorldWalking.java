@@ -1,8 +1,8 @@
 package dreambot.tutorial.api.walking;
 
 
-import dreambot.tutorial.api.walking.pathfinder.factory.WorldNodeFactory;
 import dreambot.tutorial.api.walking.pathfinder.WorldPathFinder;
+import dreambot.tutorial.api.walking.pathfinder.factory.WorldNodeFactory;
 import dreambot.tutorial.api.walking.pathfinder.nodes.AbstractWorldNode;
 import org.dreambot.api.Client;
 import org.dreambot.api.methods.map.Map;

@@ -27,26 +27,23 @@ public abstract class AbstractWorldNode implements Locatable {
     }
 
     public AbstractWorldNode(String name, Tile location, Requirement... reqs) {
-        this.name = name;
-        this.location = location;
+        this(name, location);
 
         if (reqs != null) {
             Collections.addAll(requirements, reqs);
         }
     }
 
-    public String getName() {
+    public final String getName() {
         return name;
     }
 
-    public AbstractWorldNode getConnection() {
+    public final AbstractWorldNode getConnection() {
         return connection;
     }
 
     public final void connect(AbstractWorldNode node) {
-        if (getConnection() == null) {
-            this.connection = node;
-        }
+        this.connection = node;
     }
 
     public final boolean hasConnection() {
@@ -147,7 +144,7 @@ public abstract class AbstractWorldNode implements Locatable {
 
     @Override
     public String toString() {
-        return this.name + " - " + this.location.toString();
+        return getName() + " - " + getTile().toString();
     }
 
     @Override

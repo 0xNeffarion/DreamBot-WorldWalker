@@ -9,7 +9,7 @@ import org.dreambot.api.script.ScriptManifest;
 @ScriptManifest(name = "DreamBot World Walking Tutorial", version = 1.0, author = "Neffarion", category = Category.MISC)
 public final class Script extends AbstractScript {
 
-    private static final Tile TARGET = new Tile(3024, 9714, 0);
+    private static final Tile TARGET = new Tile(3098, 9908, 0);
 
     @Override
     public int onLoop() {

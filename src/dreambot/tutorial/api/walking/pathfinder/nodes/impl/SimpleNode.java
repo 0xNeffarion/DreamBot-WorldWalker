@@ -16,7 +16,7 @@ import java.lang.reflect.Type;
 
 // GameObjects or NPCs that make you move to a different location with a single simple interaction
 // i.e: Dungeon ladders, Obstacles, Entrances, etc..
-public final class TeleportNode<T extends Entity> extends AbstractWorldNode {
+public class SimpleNode<T extends Entity> extends AbstractWorldNode {
 
     private static final int DISTANCE_TRAVERSE_TRIGGER = 12;
 
@@ -30,11 +30,11 @@ public final class TeleportNode<T extends Entity> extends AbstractWorldNode {
     private final String entityAction;
     private final Type entityType;
 
-    public TeleportNode(String name, Tile location, String entityName, String entityAction, Class<T> entityType) {
+    public SimpleNode(String name, Tile location, String entityName, String entityAction, Class<T> entityType) {
         this(name, location, entityName, entityAction, entityType, (Requirement[]) null);
     }
 
-    public TeleportNode(String name, Tile location, String entityName, String entityAction, Class<T> entityType, Requirement... reqs) {
+    public SimpleNode(String name, Tile location, String entityName, String entityAction, Class<T> entityType, Requirement... reqs) {
         super(name, location, reqs);
         this.entityName = entityName;
         this.entityAction = entityAction;

@@ -12,14 +12,23 @@ import org.dreambot.api.methods.walking.web.node.WebNodeType;
 
 import java.util.*;
 
+/**
+ * World Path Finder for DreamBot
+ * Used to walk around the OSRS World via places that the Web cannot get you through
+ * <p>
+ * The nodes are not all connected to each other, instead the DreamBot Web itself is used to connect to the pair of nodes you create.
+ */
 public final class WorldPathFinder {
 
     private static final int LOCAL_DISTANCE = 50;
+
+    private boolean ignoreRequirements = false;
 
     private final Set<AbstractWorldNode> worldNodes = new HashSet<>();
     private final Map<Tile, List<AbstractWorldNode>> visitableCache = new WeakHashMap<>();
 
     public WorldPathFinder() {
+        // Removes any web conflicts
         Walking.getWebPathFinder().removeAllowedTypes(
                 WebNodeType.ENTRANCE_NODE,
                 WebNodeType.STATIC_TELEPORT_NODE,
@@ -40,13 +49,23 @@ public final class WorldPathFinder {
         worldNodes.addAll(nodes);
     }
 
+    public void setIgnoreRequirements(boolean ignoreRequirements) {
+        this.ignoreRequirements = ignoreRequirements;
+    }
+
+    /**
+     * Calculates a path using the world nodes from one location to another
+     *
+     * @param start  starting location tile
+     * @param target end location tile
+     * @return List of AbstractWorldNode's that represent the path to take. If empty then the path can be taken using the default DreamBot Web. Returns null if no path is found
+     */
     public final List<AbstractWorldNode> calculate(Tile start, Tile target) {
         List<AbstractWorldNode> path = new ArrayList<>();
         if (canNativeWalk(start, target)) {
             return path;
         }
 
-        Map<AbstractWorldNode, Pair<AbstractWorldNode, Double>> result = dijkstra(start);
         List<AbstractWorldNode> endNodes = visitable(target);
         List<AbstractWorldNode> startNodes = visitable(start);
 
@@ -54,6 +73,7 @@ public final class WorldPathFinder {
             return null;
         }
 
+        Map<AbstractWorldNode, Pair<AbstractWorldNode, Double>> result = dijkstra(start);
         AbstractWorldNode endNode = null;
         for (AbstractWorldNode n : endNodes) {
             if (result.containsKey(n)) {
@@ -83,6 +103,16 @@ public final class WorldPathFinder {
         return path;
     }
 
+    /**
+     * Runs dijkstra algorithm over all the existing world nodes starting from the start tile
+     *
+     * @param start starting tile to begin search
+     * @return Map containing the following structure:
+     * Map<x, Pair<y, d>>
+     * x: World node
+     * y: Parent World node that has shortest path to x from start tile
+     * d: Distance to y (shortest linear distance)
+     */
     public final Map<AbstractWorldNode, Pair<AbstractWorldNode, Double>> dijkstra(Tile start) {
         List<AbstractWorldNode> temp = visitable(start);
         Queue<AbstractWorldNode> queue = new PriorityQueue<>(Comparator.comparingDouble(i -> i.distance(start)));
@@ -122,6 +152,13 @@ public final class WorldPathFinder {
         return distances;
     }
 
+    /**
+     * Checks if DreamBot Web finder or Local path finders can plot a path to a tile
+     *
+     * @param start  Starting tile to start a path
+     * @param target End tile of path
+     * @return true if path can be walked without the use of World nodes, otherwise false
+     */
     public final boolean canNativeWalk(Tile start, Tile target) {
         if (start.distance(target) < LOCAL_DISTANCE && org.dreambot.api.methods.map.Map.isLocal(target)) {
             LocalPath<Tile> path;
@@ -142,6 +179,14 @@ public final class WorldPathFinder {
         return path != null && !path.hasSpecialNode();
     }
 
+    /**
+     * Function to return the possible visitable world nodes from a tile.
+     * Uses visitableCache for caching queries.
+     *
+     * @param start Starting tile to start search
+     * @return List of AbstractWorldNode's that can be reached and used (walked to/traversed) from the start tile. World node's which requirements fail are not added.
+     * Returns an empty list if nothing is found
+     */
     private List<AbstractWorldNode> visitable(Tile start) {
         if (visitableCache.containsKey(start)) {
             return visitableCache.get(start);
@@ -149,7 +194,7 @@ public final class WorldPathFinder {
 
         List<AbstractWorldNode> nodes = new ArrayList<>();
         for (AbstractWorldNode n : worldNodes) {
-            if (!n.meetsRequirements()) {
+            if (!ignoreRequirements && !n.meetsRequirements()) {
                 continue;
             }
 
@@ -183,11 +228,22 @@ public final class WorldPathFinder {
         return nodes;
     }
 
+    /**
+     * Nearest visitable node from given tile
+     *
+     * @param tile Tile to start search from
+     * @return null if nothing is found. Otherwise, the nearest visitable World node that is near the given tile (linear distance)
+     */
     public final AbstractWorldNode nearest(Tile tile) {
         return visitable(tile).stream()
                 .min(Comparator.comparing(i -> i.getTile().distance(tile))).orElse(null);
     }
 
+    /**
+     * Nearest visitable node from the local player tile
+     *
+     * @return null if nothing is found. Otherwise, the nearest visitable World node that is near the player (linear distance)
+     */
     public final AbstractWorldNode nearest() {
         return nearest(Players.localPlayer().getTile());
     }
@@ -196,6 +252,13 @@ public final class WorldPathFinder {
         return this.hops(start, target) >= 0;
     }
 
+    /**
+     * Total hops needed to get through from one tile to another in world nodes
+     *
+     * @param start  starting tile
+     * @param target ending tile
+     * @return -1 if no path is found. Otherwise, it returns the number of world nodes that need to be used to get from start to target
+     */
     public final int hops(Tile start, Tile target) {
         List<AbstractWorldNode> path = calculate(start, target);
         if (path != null) {
