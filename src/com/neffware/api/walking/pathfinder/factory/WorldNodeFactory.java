@@ -1,12 +1,12 @@
-package dreambot.tutorial.api.walking.pathfinder.factory;
+package com.neffware.api.walking.pathfinder.factory;
 
-import dreambot.tutorial.api.walking.pathfinder.WorldPathFinder;
-import dreambot.tutorial.api.walking.pathfinder.nodes.AbstractWorldNode;
-import dreambot.tutorial.api.walking.pathfinder.nodes.impl.CompoundNode;
-import dreambot.tutorial.api.walking.pathfinder.nodes.impl.ShipTravelNode;
-import dreambot.tutorial.api.walking.pathfinder.nodes.impl.SimpleNode;
-import dreambot.tutorial.api.walking.pathfinder.reqs.InventoryRequirement;
-import dreambot.tutorial.api.walking.pathfinder.reqs.SkillRequirement;
+import com.neffware.api.walking.pathfinder.WorldPathFinder;
+import com.neffware.api.walking.pathfinder.nodes.AbstractWorldNode;
+import com.neffware.api.walking.pathfinder.nodes.impl.CompoundNode;
+import com.neffware.api.walking.pathfinder.nodes.impl.ShipTravelNode;
+import com.neffware.api.walking.pathfinder.nodes.impl.SimpleNode;
+import com.neffware.api.walking.pathfinder.reqs.InventoryRequirement;
+import com.neffware.api.walking.pathfinder.reqs.SkillRequirement;
 import org.dreambot.api.methods.map.Tile;
 import org.dreambot.api.methods.skills.Skill;
 import org.dreambot.api.wrappers.interactive.GameObject;
@@ -74,9 +74,9 @@ public final class WorldNodeFactory {
         SimpleNode<GameObject> useTrapdoor = new SimpleNode<>("Edgeville Trapdoor to Edgeville Cave", trapdoorTile, "Trapdoor", "Climb-down", GameObject.class);
         CompoundNode compoundNode = new CompoundNode("Edgeville Trapdoor to Edgeville Cave", trapdoorTile, new AbstractWorldNode[]{openTrapdoor, useTrapdoor});
 
-        SimpleNode<GameObject> sn1 = new SimpleNode<>("Edgeville Dungeoun to Edgeville", new Tile(3097, 9869, 0), "Ladder", "Climb-up", GameObject.class);
-
-        connectNodes(pathFinder, compoundNode, sn1);
+        connectNodes(pathFinder,
+                compoundNode,
+                new SimpleNode<>("Edgeville Dungeoun to Edgeville", new Tile(3097, 9869, 0), "Ladder", "Climb-up", GameObject.class));
 
         return pathFinder;
     }

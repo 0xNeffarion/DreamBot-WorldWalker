@@ -1,6 +1,6 @@
-package dreambot.tutorial.api.walking.pathfinder.nodes.impl;
+package com.neffware.api.walking.pathfinder.nodes.impl;
 
-import dreambot.tutorial.api.walking.pathfinder.reqs.Requirement;
+import com.neffware.api.walking.pathfinder.reqs.Requirement;
 import org.dreambot.api.Client;
 import org.dreambot.api.data.GameState;
 import org.dreambot.api.methods.MethodProvider;
@@ -9,6 +9,7 @@ import org.dreambot.api.methods.map.Tile;
 import org.dreambot.api.wrappers.interactive.GameObject;
 import org.dreambot.api.wrappers.interactive.NPC;
 
+// Travelling via ship which requires you to interact with a gangplank afterwards to get out of the said ship
 public class ShipTravelNode extends DialogNode<NPC> {
 
     private static final String GANGPLANK_NAME = "Gangplank";
@@ -27,7 +28,7 @@ public class ShipTravelNode extends DialogNode<NPC> {
     @Override
     public boolean traverse() {
         if (super.traverse()) {
-            if(MethodProvider.sleepUntil(this::hasTraveled, 10000, 500)){
+            if (MethodProvider.sleepUntil(this::hasTraveled, 10000, 500)) {
                 MethodProvider.sleep(1500, 2500);
                 return crossGangplank();
             }

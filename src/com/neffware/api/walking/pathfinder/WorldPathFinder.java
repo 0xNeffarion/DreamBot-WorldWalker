@@ -1,7 +1,7 @@
-package dreambot.tutorial.api.walking.pathfinder;
+package com.neffware.api.walking.pathfinder;
 
-import dreambot.tutorial.api.walking.pathfinder.nodes.AbstractWorldNode;
-import dreambot.tutorial.api.walking.util.Pair;
+import com.neffware.api.walking.pathfinder.nodes.AbstractWorldNode;
+import com.neffware.api.walking.util.Pair;
 import org.dreambot.api.methods.interactive.Players;
 import org.dreambot.api.methods.map.Tile;
 import org.dreambot.api.methods.walking.impl.Walking;

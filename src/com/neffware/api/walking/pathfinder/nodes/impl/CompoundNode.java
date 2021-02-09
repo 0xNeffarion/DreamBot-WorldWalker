@@ -1,7 +1,7 @@
-package dreambot.tutorial.api.walking.pathfinder.nodes.impl;
+package com.neffware.api.walking.pathfinder.nodes.impl;
 
-import dreambot.tutorial.api.walking.pathfinder.nodes.AbstractWorldNode;
-import dreambot.tutorial.api.walking.pathfinder.reqs.Requirement;
+import com.neffware.api.walking.pathfinder.nodes.AbstractWorldNode;
+import com.neffware.api.walking.pathfinder.reqs.Requirement;
 import org.dreambot.api.methods.MethodProvider;
 import org.dreambot.api.methods.map.Tile;
 
@@ -9,6 +9,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+// Nodes which have multiple stages to be able to interact.
+// Example: A trapdoor which needs to be opened before being able to use it
 public class CompoundNode extends AbstractWorldNode {
 
     private final List<AbstractWorldNode> stages = new ArrayList<>();

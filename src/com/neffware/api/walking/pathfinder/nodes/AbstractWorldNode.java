@@ -1,6 +1,6 @@
-package dreambot.tutorial.api.walking.pathfinder.nodes;
+package com.neffware.api.walking.pathfinder.nodes;
 
-import dreambot.tutorial.api.walking.pathfinder.reqs.Requirement;
+import com.neffware.api.walking.pathfinder.reqs.Requirement;
 import org.dreambot.api.methods.map.Map;
 import org.dreambot.api.methods.map.Tile;
 import org.dreambot.api.methods.walking.impl.Walking;

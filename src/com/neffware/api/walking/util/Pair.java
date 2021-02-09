@@ -1,4 +1,4 @@
-package dreambot.tutorial.api.walking.util;
+package com.neffware.api.walking.util;
 
 public final class Pair<K, V> {
 

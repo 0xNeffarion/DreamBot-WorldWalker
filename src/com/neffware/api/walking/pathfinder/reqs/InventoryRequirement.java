@@ -1,4 +1,4 @@
-package dreambot.tutorial.api.walking.pathfinder.reqs;
+package com.neffware.api.walking.pathfinder.reqs;
 
 import org.dreambot.api.methods.container.impl.Inventory;
 
