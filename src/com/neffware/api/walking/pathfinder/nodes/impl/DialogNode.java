@@ -1,5 +1,6 @@
 package com.neffware.api.walking.pathfinder.nodes.impl;
 
+import com.neffware.api.walking.WorldWalking;
 import com.neffware.api.walking.pathfinder.reqs.Requirement;
 import org.dreambot.api.Client;
 import org.dreambot.api.methods.MethodProvider;
@@ -34,6 +35,8 @@ public class DialogNode<T extends Entity> extends SimpleNode<T> {
             completeDialogue();
             return true;
         }
+
+        WorldWalking.getWorldPathFinder().addNodes();
 
         return false;
     }

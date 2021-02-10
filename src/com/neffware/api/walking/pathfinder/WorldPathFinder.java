@@ -41,7 +41,7 @@ public final class WorldPathFinder {
         worldNodes.add(node);
     }
 
-    public final void addNodes(AbstractWorldNode[] nodes) {
+    public final void addNodes(AbstractWorldNode... nodes) {
         Collections.addAll(worldNodes, nodes);
     }
 
